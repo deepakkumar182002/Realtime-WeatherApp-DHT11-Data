@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather App</title>
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+<!-- ###################################################################################### -->
+    <!-- realtime data for DHT11 -->
+    <div class="data-head">DHT Sensor Realtime Readings</div>
+
+	<div class="data-container">
+		<div class="data-item">
+			<h2>Temperature</h2>
+			<p class="value" id="temperature">22 &#8451;</p>
+		</div>
+		<div class="data-item">
+			<h2>Humidity</h2>
+			<p class="value" id="humidity">10%</p>
+		</div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+
+	<script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script>
+
+
+	<script type="module">
+		// Import the functions you need from the SDKs you need
+		import { initializeApp } from "https://www.gstatic.com/firebasejs/10.3.1/firebase-app.js";
+		// TODO: Add SDKs for Firebase products that you want to use
+		// https://firebase.google.com/docs/web/setup#available-libraries
+
+		// Your web app's Firebase configuration here (Do not use the existing configuration)
+		const firebaseConfig = {
+			apiKey: "AIzaSyA_gcpg-AyJlsE4BT2tsWLjaIdyKR0J3us",
+			authDomain: "weather-app-dht-11.firebaseapp.com",
+			databaseURL: "https://weather-app-dht-11-default-rtdb.firebaseio.com",
+			projectId: "weather-app-dht-11",
+			storageBucket: "weather-app-dht-11.appspot.com",
+			messagingSenderId: "83119297463",
+			appId: "1:83119297463:web:edd76224e02ec5a7830e32",
+			measurementId: "G-07MBM7C64H"
+		};
+
+		// Initialize Firebase
+		firebase.initializeApp(firebaseConfig);
+
+
+		// getting reference to the database
+		var database = firebase.database();
+
+		//getting reference to the data we want
+		var dataRef1 = database.ref('DHT_11/Humidity');
+		var dataRef2 = database.ref('DHT_11/Temperature');
+
+		//fetch the data
+		dataRef1.on('value', function (getdata1) {
+			var humi = getdata1.val();
+			document.getElementById('humidity').innerHTML = humi + "%";
+		})
+
+		dataRef2.on('value', function (getdata2) {
+			var temp = getdata2.val();
+			document.getElementById('temperature').innerHTML = temp + "&#8451;";
+		})
+	</script>
+<!-- ################################################################################-->
+
+
+	</div>
+    <div class="wrapper">
+      <div class="shape shape-1"></div>
+      <div class="shape shape-2"></div>
+      <div class="container">
+        <div class="search-container">
+          <input
+            type="text"
+            placeholder="Enter a city name"
+            id="city"
+            value="mumbai"
+          />
+          <button id="search-btn">Search</button>
+        </div>
+        <div id="result"></div>
+      </div>
+    </div>
+    <!-- Script -->
+    <script src="/key.js"></script>
+    <script src="/script.js"></script>
+  </body>
+</html>
